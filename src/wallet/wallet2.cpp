@@ -5653,7 +5653,7 @@ crypto::secret_key wallet2::generate(const std::string& wallet_, const epee::wip
   return retval;
 }
 
- uint64_t wallet2::estimate_blockchain_height()
+ uint64_t wallet2::estimate_blockchain_height() // TODO
  {
    // -1 month for fluctuations in block time and machine date/time setup.
    // avg seconds per block
