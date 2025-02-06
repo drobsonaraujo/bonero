@@ -50,6 +50,9 @@ jobs:
       run: |
         ${{env.CCACHE_SETTINGS}}
         make -j${{env.MAKE_JOB_COUNT}}
+    - uses: actions/upload-artifact@v4
+      with:
+        path: build
 
   build-windows:
     name: 'Windows (MSYS2)'
@@ -78,6 +81,9 @@ jobs:
       run: |
         ${{env.CCACHE_SETTINGS}}
         make release-static-win64 -j${{env.MAKE_JOB_COUNT}}
+    - uses: actions/upload-artifact@v4
+      with:
+        path: build
 
   build-arch:
     name: 'Arch Linux'
@@ -135,8 +141,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-20.04
-            name: Ubuntu 20.04
           - os: ubuntu-22.04
             name: Ubuntu 22.04
     steps:
@@ -163,6 +167,9 @@ jobs:
       run: |
         ${{env.CCACHE_SETTINGS}}
         ${{env.BUILD_DEFAULT_LINUX}}
+    - uses: actions/upload-artifact@v4
+      with:
+        path: build
 
   test-ubuntu:
     name: "Ubuntu 20.04 (tests)"
