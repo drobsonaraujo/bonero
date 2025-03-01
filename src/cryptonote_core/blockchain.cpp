@@ -29,6 +29,7 @@
 // Parts of this file are originally copyright (c) 2012-2013 The Cryptonote developers
 
 #include <algorithm>
+#include <cstdint>
 #include <cstdio>
 #include <boost/asio/dispatch.hpp>
 #include <boost/filesystem.hpp>
@@ -921,7 +922,13 @@ difficulty_type Blockchain::get_difficulty_for_next_block()
     m_difficulties = difficulties;
   }
   size_t target = get_difficulty_target();
-  difficulty_type diff = next_difficulty(timestamps, difficulties, target);
+  uint64_t window = DIFFICULTY_WINDOW_V2;
+  uint64_t cut = DIFFICULTY_CUT_V2;
+  if (get_ideal_hard_fork_version(height) < HF_VERSION_DIFFICULTY_WINDOW_V2) {
+    window = DIFFICULTY_WINDOW;
+    cut = DIFFICULTY_CUT;
+  }
+  difficulty_type diff = next_difficulty(timestamps, difficulties, target, window, cut);
 
   CRITICAL_REGION_LOCAL1(m_difficulty_lock);
   m_difficulty_for_next_block_top_hash = top_hash;
@@ -977,7 +984,13 @@ size_t Blockchain::recalculate_difficulties(boost::optional<uint64_t> start_heig
   for (uint64_t height = start_height; height <= top_height; ++height)
   {
     size_t target = get_ideal_hard_fork_version(height) < 2 ? DIFFICULTY_TARGET_V1 : DIFFICULTY_TARGET_V2;
-    difficulty_type recalculated_diff = next_difficulty(timestamps, difficulties, target);
+    uint64_t window = DIFFICULTY_WINDOW_V2;
+    uint64_t cut = DIFFICULTY_CUT_V2;
+    if (get_ideal_hard_fork_version(height) < HF_VERSION_DIFFICULTY_WINDOW_V2) {
+      window = DIFFICULTY_WINDOW;
+      cut = DIFFICULTY_CUT;
+    }
+    difficulty_type recalculated_diff = next_difficulty(timestamps, difficulties, target, window, cut);
 
     boost::multiprecision::uint256_t recalculated_cum_diff_256 = boost::multiprecision::uint256_t(recalculated_diff) + last_cum_diff;
     CHECK_AND_ASSERT_THROW_MES(recalculated_cum_diff_256 <= std::numeric_limits<difficulty_type>::max(), "Difficulty overflow!");
@@ -1280,8 +1293,15 @@ difficulty_type Blockchain::get_next_difficulty_for_alternative_chain(const std:
   // FIXME: This will fail if fork activation heights are subject to voting
   size_t target = get_ideal_hard_fork_version(bei.height) < 2 ? DIFFICULTY_TARGET_V1 : DIFFICULTY_TARGET_V2;
 
+  uint64_t window = DIFFICULTY_WINDOW_V2;
+  uint64_t cut = DIFFICULTY_CUT_V2;
+  if (get_ideal_hard_fork_version(bei.height) < HF_VERSION_DIFFICULTY_WINDOW_V2) {
+    window = DIFFICULTY_WINDOW;
+    cut = DIFFICULTY_CUT;
+  }
+
   // calculate the difficulty target for the block and return it
-  return next_difficulty(timestamps, cumulative_difficulties, target);
+  return next_difficulty(timestamps, cumulative_difficulties, target, window, cut);
 }
 //------------------------------------------------------------------
 // This function does a sanity check on basic things that all miner
