@@ -49,6 +49,7 @@ const hardfork_t mainnet_hard_forks[] = {
   { 15, 15, 0, 1656629117 },
   { 16, 16, 0, 1656629118 },
   { 17, 36649, 0, 1741015100 }, // 2025-03-03, difficulty algorithm hard-fork
+  { 18, 39200, 0, 1741175257 }  // 2025-03-05, notarized proof-of-work
 };
 const size_t num_mainnet_hard_forks = sizeof(mainnet_hard_forks) / sizeof(mainnet_hard_forks[0]);
 const uint64_t mainnet_hard_fork_version_1_till = 1009826;

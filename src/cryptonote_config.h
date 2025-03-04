@@ -191,6 +191,10 @@
 #define HF_VERSION_VIEW_TAGS                    15
 #define HF_VERSION_2021_SCALING                 15
 #define HF_VERSION_DIFFICULTY_WINDOW_V2         17
+#define HF_VERSION_NOTARY                       18
+
+#define NOTARY_INTERVAL                         10
+#define NOTARY_DIFF_MULTIPLIER                  8
 
 #define PER_KB_FEE_QUANTIZATION_DECIMALS        8
 #define CRYPTONOTE_SCALING_2021_FEE_ROUNDING_PLACES 2
@@ -261,6 +265,8 @@ namespace config
   const constexpr char HASH_KEY_MULTISIG_TX_PRIVKEYS[] = "multisig_tx_privkeys";
   const constexpr char HASH_KEY_TXHASH_AND_MIXRING[] = "txhash_and_mixring";
 
+  const std::string NOTARY_ADDRESS = "SEXTX5wYpgJ6f34XMnuQTfRVGaAYJswy9HDVaHkVbmE9DCjXpmFX47Xesz5c5NrXsrhF67gcSzuArgCvojpu2tV35Zwpc9EAbh";
+
   // Multisig
   const uint32_t MULTISIG_MAX_SIGNERS{16};
 
@@ -277,6 +283,7 @@ namespace config
       } }; // Bender's daydream
     std::string const GENESIS_TX = "013c01ff0001ffffffffffff03029b2e4c0281c0b02e7c53291a94d1d0cbff8883f8024f5142ee494ffbbd08807121017767aafcde9be00dcfd098715ebcf7f410daebc582fda69d24a28e9d0bc890d1";
     uint32_t const GENESIS_NONCE = 10001;
+    const std::string NOTARY_ADDRESS = "";
   }
 
   namespace stagenet
@@ -292,6 +299,7 @@ namespace config
       } }; // Bender's daydream
     std::string const GENESIS_TX = "013c01ff0001ffffffffffff0302df5d56da0c7d643ddd1ce61901c7bdc5fb1738bfe39fbe69c28a3a7032729c0f2101168d0c4ca86fb55a4cf6a36d31431be1c53a3bd7411bb24e8832410289fa6f3b";
     uint32_t const GENESIS_NONCE = 10002;
+    const std::string NOTARY_ADDRESS = "";
   }
 }
 
