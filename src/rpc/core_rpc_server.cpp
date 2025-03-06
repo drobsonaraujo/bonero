@@ -1995,7 +1995,7 @@ namespace cryptonote
     }
 
     res.reserved_offset = reserved_offset;
-    if (b.major_version > HF_VERSION_NOTARY && res.height % NOTARY_INTERVAL == 0) {
+    if (b.major_version >= HF_VERSION_NOTARY && res.height % NOTARY_INTERVAL == 0) {
       wdiff *= NOTARY_DIFF_MULTIPLIER;
     }
     store_difficulty(wdiff, res.difficulty, res.wide_difficulty, res.difficulty_top64);
